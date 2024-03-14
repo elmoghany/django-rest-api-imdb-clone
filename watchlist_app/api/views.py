@@ -11,6 +11,6 @@ def movie_list(request):
 
 @api_view()
 def movie_detail(request, pk):
-    movie = Movie.object.get(pk=pk)
+    movie = Movie.objects.get(pk=pk)
     serializer = MovieSerializer(movie)
     return Response(serializer.data)
