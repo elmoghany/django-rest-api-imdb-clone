@@ -1,30 +1,35 @@
 #we will map each field in serializers instead of using the model class
 from rest_framework import serializers
-from watchlist_app.models import Movie
+from watchlist_app.models import WatchList, StreamPlatform
 
-class MovieSerializer(serializers.ModelSerializer):
+class StreamPlatformSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StreamPlatform
+        fields = "__all__"
+    
+class WatchListSerializer(serializers.ModelSerializer):
     #crete, update, delete is automatically defined using ModelSerializer!
-    len_name = serializers.SerializerMethodField()
-    len_description = serializers.SerializerMethodField()
+    # len_name = serializers.SerializerMethodField()
+    # len_description = serializers.SerializerMethodField()
     
     class Meta:
-        model = Movie
+        model = WatchList
         fields = "__all__"
         # fields = ['id', 'name', 'description']
         # exclude = ['active']
 
-    def get_len_name(self, object):
-        return len(object.name)
+    # def get_len_name(self, object):
+    #     return len(object.name)
     
-    def get_len_description(self, object):
-        return len(object.description)
+    # def get_len_description(self, object):
+    #     return len(object.description)
 
-    # field level validation
-    def validate_name(self, value):
-        if len(value) < 2:
-            raise serializers.ValidationError("name is too short")
-        else:
-            return value
+    # # field level validation
+    # def validate_name(self, value):
+    #     if len(value) < 2:
+    #         raise serializers.ValidationError("name is too short")
+    #     else:
+    #         return value
 
 
 # def name_length(value):
