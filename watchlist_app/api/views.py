@@ -11,7 +11,7 @@ class MovieListAV(APIView):
         serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data)
     
-    def post(self, request, pk):
+    def post(self, request):
         serializer = MovieSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -20,7 +20,7 @@ class MovieListAV(APIView):
             return Response(serializer.errors)
         
 class MovieDetailAV(APIView):
-    def get(self, request):
+    def get(self, request, pk):
         try:
             movie = Movie.objects.get(pk=pk)
         except Movie.DoesNotExist:
