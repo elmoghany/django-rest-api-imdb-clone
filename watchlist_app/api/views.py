@@ -8,7 +8,7 @@ from watchlist_app.api.serializers import MovieSerializer
 class MovieListAV(APIView):
     def get(self, request):
         movies = Movie.objects.all()
-        serializer = MovieSerializer.objects.get(movies, many=True)
+        serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data)
     
     def post(self, request):
