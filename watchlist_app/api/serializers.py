@@ -5,8 +5,6 @@ from watchlist_app.models import Movie
 def name_length(self, value):
     if len(value) < 2:
         raise serializers.ValidationError("name is too short")
-    else:
-        return value
 
 class MovieSerializer(serializers.Serializer):
     #validator
