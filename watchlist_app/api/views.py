@@ -28,6 +28,7 @@ def movie_detail(request, pk):
     # patch means update that single field out of all fields
     # put means update every single field = ALL fields
     if request.method == 'PUT':
+        movie = Movie.objects.get(pk=pk)
         serializer = MovieSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
