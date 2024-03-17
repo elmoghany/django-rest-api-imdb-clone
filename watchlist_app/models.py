@@ -30,4 +30,4 @@ class Review(models.Model):
     watchlist = models.ForeignKey(WatchList, on_delete=models.CASCADE, related_name="reviews_watchlist")
     
     def __str__(self):
-        return self.rating
+        return "(" + str(self.rating) + ") " + self.watchlist.title
