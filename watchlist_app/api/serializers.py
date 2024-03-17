@@ -14,7 +14,17 @@ class WatchListSerializer(serializers.ModelSerializer):
         # exclude = ['active']
 
 class StreamPlatformSerializer(serializers.ModelSerializer):
-    platform_watchlist = WatchListSerializer(many=True, read_only=True)
+    #show complete details
+    # platform_watchlist = WatchListSerializer(many=True, read_only=True)
+    
+    #show only details in __str__
+    # platform_watchlist = serializers.StringRelatedField(many=True, read_only=True)
+    
+    #show primary key
+    # platform_watchlist = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    
+    #hyperlinked
+    platform_watchlist = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='watch-detail-page')
     
     class Meta:
         model = StreamPlatform
