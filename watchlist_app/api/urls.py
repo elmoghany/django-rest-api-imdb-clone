@@ -9,7 +9,7 @@ from django.urls import path
 from watchlist_app.api.views import WatchDetailAV, WatchListAV, StreamPlatformAV, StreamDetailAV
 urlpatterns = [
     path('list/', WatchListAV.as_view(), name='watch-list-page'),
-    path('stream/', StreamPlatformAV.as_view(), name='stream-page'),
     path('<int:pk>/', WatchDetailAV.as_view(), name='watch-detail-page'),
-    path('<int:pk>/', StreamDetailAV.as_view(), name='stream-detail-page'),
+    path('stream/', StreamPlatformAV.as_view(), name='stream-page'),
+    path('stream/<int:pk>/', StreamDetailAV.as_view(), name='stream-detail-page'),
 ]
