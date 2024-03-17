@@ -1,12 +1,14 @@
 #we will map each field in serializers instead of using the model class
 from rest_framework import serializers
 from watchlist_app.models import WatchList, StreamPlatform, Review
+from rest_framework import viewsets
 
 class ReviewSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Review
-        fields = "__all__"
+        # fields = "__all__"
+        exclude = ("watchlist",)
     
 class WatchListSerializer(serializers.ModelSerializer):
     #crete, update, delete is automatically defined using ModelSerializer!
