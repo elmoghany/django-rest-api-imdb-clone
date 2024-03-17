@@ -7,14 +7,26 @@ from rest_framework.views import APIView
 from watchlist_app.models import WatchList, StreamPlatform, Review
 from watchlist_app.api.serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 
+    
+class ReviewCreate(generics.CreateAPIView):
+    serializer_class = ReviewSerializer
+    def perform_create(self, serializer):
+        pk = self.kwargs.get('pk')
+        movie = WatchList.objects.get(pk=pk)
+        serializer.save(watchlist=movie)
+
+# class ReviewList(generics.ListCreateAPIView):
+class ReviewList(generics.ListAPIView): #ListAPIView
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        review = Review.objects.filter(watchlist=pk)
+        return review
+
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-
-class ReviewList(generics.ListCreateAPIView):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
-
 
 # class ReviewDetail(mixins.RetrieveModelMixin,
 #                  generics.GenericAPIView
