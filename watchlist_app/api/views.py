@@ -25,7 +25,7 @@ class StreamDetailAV(APIView):
             platform = StreamPlatform.objects.get(pk=pk)
         except StreamPlatform.DoesNotExist:
             return Response({'error':'not found'},status=status.HTTP_400_BAD_REQUEST)
-        serializer = StreamPlatformSerializer(platform)
+        serializer = StreamPlatformSerializer(platform, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, pk):

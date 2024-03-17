@@ -6,15 +6,20 @@ class WatchListSerializer(serializers.ModelSerializer):
     #crete, update, delete is automatically defined using ModelSerializer!
     # len_name = serializers.SerializerMethodField()
     # len_description = serializers.SerializerMethodField()
-    
     class Meta:
         model = WatchList
         fields = "__all__"
         # fields = ['id', 'name', 'description']
         # exclude = ['active']
 
-class StreamPlatformSerializer(serializers.ModelSerializer):
+# class StreamPlatformSerializer(serializers.ModelSerializer):
+class StreamPlatformSerializer(serializers.HyperlinkedModelSerializer):
+    # options = serializers.HyperlinkedRelatedField(view_name='stream-page', ready_only=True)
+    # lookup_field = 'slug',
+    # many=True,
+    # read_only=True)
     #show complete details
+
     platform_watchlist = WatchListSerializer(many=True, read_only=True)
     
     #show only details in __str__
