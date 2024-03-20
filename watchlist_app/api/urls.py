@@ -20,7 +20,7 @@ urlpatterns = [
     path('', include(router.urls)),
     # path('stream/', StreamPlatformAV.as_view(), name='streamplatform-page'),
     # path('stream/<int:pk>/', StreamDetailAV.as_view(), name='streamplatform-detail'),
-    path('stream/review/<int:pk>', ReviewDetail.as_view(), name='review-detail-page'),
-    path('stream/<int:pk>/review/', ReviewList.as_view(), name='review-page'),
-    path('stream/<int:pk>/review-create/', ReviewCreate.as_view(), name='review-create-page'),
+    path('review/<int:pk>', ReviewDetail.as_view(), name='review-detail-page'),
+    path('<int:pk>/reviews/', ReviewList.as_view(), name='review-page'),
+    path('<int:pk>/review-create/', ReviewCreate.as_view(), name='review-create-page'),
 ]
