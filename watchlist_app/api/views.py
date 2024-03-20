@@ -22,7 +22,7 @@ class ReviewCreate(generics.CreateAPIView):
         if review_queryset.exists():
             raise ValidationError("you have already reviewed this movie")
         
-        serializer.save(watchlist=movie)
+        serializer.save(watchlist=movie, review_username=review_username)
 
 # class ReviewList(generics.ListCreateAPIView):
 class ReviewList(generics.ListAPIView): #ListAPIView
