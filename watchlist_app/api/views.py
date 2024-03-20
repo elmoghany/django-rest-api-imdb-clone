@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from watchlist_app.models import WatchList, StreamPlatform, Review
 from watchlist_app.api.serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 from rest_framework import viewsets
+from watchlist_app.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
     
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
@@ -42,7 +43,7 @@ class ReviewList(generics.ListAPIView): #ListAPIView
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [ReviewUserOrReadOnly]
 
 # class ReviewDetail(mixins.RetrieveModelMixin,
 #                  generics.GenericAPIView
