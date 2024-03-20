@@ -4,6 +4,7 @@ from rest_framework import status
 # from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.views import APIView
+from rest_framework.exceptions import ValidationError
 # from rest_framework.decorators import api_view
 from watchlist_app.models import WatchList, StreamPlatform, Review
 from watchlist_app.api.serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
@@ -14,6 +15,13 @@ class ReviewCreate(generics.CreateAPIView):
     def perform_create(self, serializer):
         pk = self.kwargs.get('pk')
         movie = WatchList.objects.get(pk=pk)
+        
+        review_username = self.request.user
+        review_queryset = Review.objects.filter(watchlist=movie, review_username=review_username)
+        
+        if review_queryset.exists():
+            raise ValidationError("you have already reviewed this movie")
+        
         serializer.save(watchlist=movie)
 
 # class ReviewList(generics.ListCreateAPIView):
