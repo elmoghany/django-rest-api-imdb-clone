@@ -8,3 +8,5 @@ def registration_view(request):
         if serializer.is_valid():
             serializer.save()
             return serializer.data
+        
+    

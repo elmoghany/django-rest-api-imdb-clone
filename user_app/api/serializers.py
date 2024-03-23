@@ -16,4 +16,4 @@ class RegistrationSerializer(serializers.ModelSerializer):
         password2 = self.validated_data['password2']
         
         if password != password2:
-            raise serializers.ValidationError({"error"}:{"password1 & password2 should be same"})
+            raise serializers.ValidationError({"error":"password1 & password2 should be same"})
