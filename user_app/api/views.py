@@ -1,4 +1,5 @@
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from user_app.api.serializers import RegistrationSerializer
 
 @api_view(['POST',])
@@ -7,6 +8,6 @@ def registration_view(request):
         serializer = RegistrationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return serializer.data
+            return Response(serializer.data)
         
     
