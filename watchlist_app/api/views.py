@@ -174,7 +174,7 @@ class StreamDetailAV(APIView):
         stream.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class WatchList(generics.ListAPIView): #ListAPIView
+class WatchListGV(generics.ListAPIView): #ListAPIView
     queryset = WatchList.objects.all()
     serializer = WatchListSerializer
     #?param=value => ?title=title-name&param2=value2

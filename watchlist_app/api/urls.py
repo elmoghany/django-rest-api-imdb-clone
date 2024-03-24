@@ -11,7 +11,7 @@ from watchlist_app.api.views import (WatchDetailAV, WatchListAV,
                                     StreamPlatformAV, StreamDetailAV, StreamPlatformVS,
                                     ReviewList, ReviewDetail, ReviewCreate,
                                     UserReview,
-                                    WatchList)
+                                    WatchListGV)
 
 router = DefaultRouter()
 router.register('stream', StreamPlatformVS, basename="streamplatform")
@@ -19,7 +19,7 @@ router.register('stream', StreamPlatformVS, basename="streamplatform")
 urlpatterns = [
     path('list/', WatchListAV.as_view(), name='watch-list-page'),
     path('<int:pk>/', WatchDetailAV.as_view(), name='watch-detail-page'),
-    path('new-list/', WatchList.as_view(), name='new-watch-list-page'),
+    path('new-list/', WatchListGV.as_view(), name='new-watch-list-page'),
     
     path('', include(router.urls)),
     # path('stream/', StreamPlatformAV.as_view(), name='streamplatform-page'),

@@ -18,6 +18,8 @@ class WatchListSerializer(serializers.ModelSerializer):
     
     #review_watchlist ==> when using get method only
     reviews_watchlist = ReviewSerializer(many=True, read_only=True)
+    platform = serializers.CharField(source='platform.name')
+    
     class Meta:
         model = WatchList
         fields = "__all__"
