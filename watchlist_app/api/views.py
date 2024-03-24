@@ -11,11 +11,28 @@ from watchlist_app.models import WatchList, StreamPlatform, Review
 from watchlist_app.api.serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 from rest_framework import viewsets
 from watchlist_app.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
-from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
+from watchlist_app.api.throttling import ReviewCreateThrottle, ReviewListThrottle
+from django_filters.rest_framework import DjangoFilterBackend
+
+class UserReview(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    
+    #search using a link
+    # def get_queryset(self):
+    #     username = self.kwargs['username']
+    #     return Review.objects.filter(review_user__username=username)
+
+    #search using ?parameter=value
+    #?username=elmoghany
+    def get_queryset(self):
+        username = self.request.query_params.get('username', None)
+        return Review.objects.filter(review_username__username=username)
 
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
+    throttle_classes = [ReviewCreateThrottle]
     
     def get_queryset(self):
         return Review.objects.all()
@@ -44,6 +61,9 @@ class ReviewCreate(generics.CreateAPIView):
 class ReviewList(generics.ListAPIView): #ListAPIView
     serializer_class = ReviewSerializer
     # permission_classes = [IsAuthenticated]
+    throttle_classes = [ReviewListThrottle]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['review_username__username', 'active']
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
@@ -54,7 +74,10 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [ReviewUserOrReadOnly]
-    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope ='review-detail'
+    
+    
 # class ReviewDetail(mixins.RetrieveModelMixin,
 #                  generics.GenericAPIView
 #                  ):

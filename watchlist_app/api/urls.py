@@ -9,7 +9,8 @@ from django.urls import include, path
 
 from watchlist_app.api.views import (WatchDetailAV, WatchListAV, 
                                     StreamPlatformAV, StreamDetailAV, StreamPlatformVS,
-                                    ReviewList, ReviewDetail, ReviewCreate)
+                                    ReviewList, ReviewDetail, ReviewCreate,
+                                    UserReview)
 
 router = DefaultRouter()
 router.register('stream', StreamPlatformVS, basename="streamplatform")
@@ -23,4 +24,9 @@ urlpatterns = [
     path('review/<int:pk>', ReviewDetail.as_view(), name='review-detail-page'),
     path('<int:pk>/reviews/', ReviewList.as_view(), name='review-page'),
     path('<int:pk>/review-create/', ReviewCreate.as_view(), name='review-create-page'),
+    
+    #search using a link
+    # path('reviews/<str:username>', UserReview.as_view(), name='user-review-detail-page'),
+    #search using parameters
+    path('reviews/', UserReview.as_view(), name='user-review-detail-page'),
 ]
