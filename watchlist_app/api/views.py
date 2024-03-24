@@ -182,7 +182,7 @@ class WatchList(generics.ListAPIView): #ListAPIView
     #?search=value
     #^ starts with, =exact match, @ full text, $regex
     filter_backends = [SearchFilter]
-    filterset_fields = ['title', 'platform__name', 'active']
+    filterset_fields = ['title', '=platform__name', 'active']
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
