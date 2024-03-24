@@ -14,7 +14,7 @@ from watchlist_app.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from watchlist_app.api.throttling import ReviewCreateThrottle, ReviewListThrottle
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter
+from rest_framework import filters
 
 class UserReview(generics.ListAPIView):
     serializer_class = ReviewSerializer
@@ -179,10 +179,16 @@ class WatchList(generics.ListAPIView): #ListAPIView
     serializer = WatchListSerializer
     #?param=value => ?title=title-name&param2=value2
     # filter_backends = [DjangoFilterBackend]
+    
     #?search=value
     #^ starts with, =exact match, @ full text, $regex
-    filter_backends = [SearchFilter]
-    filterset_fields = ['title', '=platform__name', 'active']
+    # filter_backends = [filters.SearchFilter]
+    # filterset_fields = ['title', '=platform__name', 'active']
+    
+    #?ordering=param => ascending
+    #?ordering=-param => descending
+    filter_backends = [filters.OrderingFilter]
+    filterset_fields = ['avg_rating', 'title']
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
