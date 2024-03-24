@@ -173,6 +173,18 @@ class StreamDetailAV(APIView):
         stream.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class WatchList(generics.ListAPIView): #ListAPIView
+    queryset = WatchList.objects.all()
+    serializer = WatchListSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['title', 'platform__name', 'active']
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        review = Review.objects.filter(watchlist=pk)
+        return review
+
+
 
 class WatchListAV(APIView):
     permission_classes = [AdminOrReadOnly]
