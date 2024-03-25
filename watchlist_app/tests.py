@@ -13,6 +13,8 @@ class StreamPlatformTestCase(test.APITestCase):
         self.user = User.objects.create_user(username="example", password="test@123")
         self.token = Token.objects.get(user__username=self.user)
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
+
+        self.stream = models.StreamPlatform.objects.create(name="netflix", about="# sds sd", website="https://wnndnd.com")
     
     def test_streamplatform_create(self):
         data = {
@@ -21,4 +23,12 @@ class StreamPlatformTestCase(test.APITestCase):
             "website": "https://netflix.com"
         }
         response = self.client.post(reverse('streamplatform-list'), data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        
+    def test_streamplatform_list(self):
+        response = self.client.get(reverse('streamplatform-list'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+    def test_streamplatform_individual(self):
+        response = self.client.get(reverse('streamplatform-detail', args=(self.stream.id,)))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
