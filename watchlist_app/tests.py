@@ -41,6 +41,7 @@ class WatchListTestCase(test.APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
         self.stream = models.StreamPlatform.objects.create(name="netflix", about="# sds sd", website="https://wnndnd.com")
+        self.watchlist = models.WatchList.objects.create(platform=self.stream, title="example movie", description="description storyline", active=True)
     
     def test_watchlist_create(self):
         data = {
@@ -51,3 +52,11 @@ class WatchListTestCase(test.APITestCase):
         }
         response = self.client.post(reverse('watch-list-page'), data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        
+    def test_watchlist_list(self):
+        response = self.client.get(reverse('watch-list-page'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+    def test_watchlist_individual(self):
+        response = self.client.get(reverse('watch-detail-page', args=self.watchlist.id,))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
