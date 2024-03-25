@@ -58,5 +58,7 @@ class WatchListTestCase(test.APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         
     def test_watchlist_individual(self):
-        response = self.client.get(reverse('watch-detail-page', args=self.watchlist.id,))
+        response = self.client.get(reverse('watch-detail-page', args=(self.watchlist.id,)))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(models.WatchList.objects.get().title, "example movie")
+        self.assertEqual(models.WatchList.objects.count(), 1)
