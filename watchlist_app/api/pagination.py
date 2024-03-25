@@ -15,4 +15,4 @@ class WatchListLimitOffsetPagination(pagination.LimitOffsetPagination):
     
 class WatchListCursorPagination(pagination.CursorPagination):
     page_size = 5
-    
+    ordering = 'created'

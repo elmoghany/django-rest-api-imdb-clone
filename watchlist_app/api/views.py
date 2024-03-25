@@ -180,6 +180,8 @@ class WatchListGV(generics.ListAPIView): #ListAPIView
     serializer = WatchListSerializer
     # pagination_class = pagination.WatchListPagination
     # pagination_class = pagination.WatchListLimitOffsetPagination
+    
+    #cursor pagination order according to time
     pagination_class = pagination.WatchListCursorPagination
     #?param=value => ?title=title-name&param2=value2
     # filter_backends = [DjangoFilterBackend]
@@ -191,8 +193,8 @@ class WatchListGV(generics.ListAPIView): #ListAPIView
     
     #?ordering=param => ascending
     #?ordering=-param => descending
-    filter_backends = [filters.OrderingFilter]
-    filterset_fields = ['avg_rating', 'title']
+    # filter_backends = [filters.OrderingFilter]
+    # filterset_fields = ['avg_rating', 'title']
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
