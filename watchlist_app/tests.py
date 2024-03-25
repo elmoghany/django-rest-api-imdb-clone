@@ -49,3 +49,5 @@ class WatchListTestCase(test.APITestCase):
             "storyline": "example story",
             "active": True
         }
+        response = self.client.post(reverse('watch-list-page'), data)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
