@@ -47,7 +47,7 @@ class WatchListTestCase(test.APITestCase):
         data = {
             "platform" : self.stream,
             "title": "example movie",
-            "storyline": "example story",
+            "description": "example story",
             "active": True
         }
         response = self.client.post(reverse('watch-list-page'), data)
@@ -62,3 +62,25 @@ class WatchListTestCase(test.APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(models.WatchList.objects.get().title, "example movie")
         self.assertEqual(models.WatchList.objects.count(), 1)
+        
+        
+class ReviewTestCase(test.APITestCase):
+    
+    def setUp(self):
+        self.user = User.objects.create_user(username="example", password="test@123")
+        self.token = Token.objects.get(user__username=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
+
+        self.stream = models.StreamPlatform.objects.create(name="netflix", about="# sds sd", website="https://wnndnd.com")
+        self.watchlist = models.WatchList.objects.create(platform=self.stream, title="example movie", description="description storyline", active=True)
+
+    def test_review_create(self):
+        data = {
+        "review_user" : self.user,
+        "rating": 5,
+        "description": "great movie",
+        "watchlist": self.watchlist,
+        "active": True
+        }
+        response = self.client.post(reverse('review-create-page', args=(self.watchlist.id,)), data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
