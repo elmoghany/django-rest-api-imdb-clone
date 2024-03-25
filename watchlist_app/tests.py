@@ -5,7 +5,7 @@ from rest_framework import test
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from watchlist_app.api import serializers
-from watchlist_app.api import models
+from watchlist_app import models
 
 class StreamPlatformTestCase(test.APITestCase):
     
@@ -32,3 +32,20 @@ class StreamPlatformTestCase(test.APITestCase):
     def test_streamplatform_individual(self):
         response = self.client.get(reverse('streamplatform-detail', args=(self.stream.id,)))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+class WatchListTestCase(test.APITestCase):
+    
+    def setUp(self):
+        self.user = User.objects.create_user(username="example", password="test@123")
+        self.token = Token.objects.get(user__username=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
+
+        self.stream = models.StreamPlatform.objects.create(name="netflix", about="# sds sd", website="https://wnndnd.com")
+    
+    def test_watchlist_create(self):
+        data = {
+            "platform" : self.stream,
+            "title": "example movie",
+            "storyline": "example story",
+            "active": True
+        }
